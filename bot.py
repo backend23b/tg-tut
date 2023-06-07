@@ -1,21 +1,28 @@
-from telegram import Bot
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
+from telegram import Update
 import os
 import time
 
 TOKEN = os.environ.get('TOKEN')
 
-bot = Bot(token=TOKEN)
+def start(update: Update, context: CallbackContext):
+    chat_id = update.message.chat.id
+    text = 'salom xush kelipsiz'
 
-last_update_id = bot.getUpdates()[-1].update_id
-while True:
-    time.sleep(1)
+    context.bot.sendMessage(chat_id, text)
 
-    curr_update = bot.getUpdates()[-1]
+def echo(update: Update, context: CallbackContext):
+    chat_id = update.message.chat.id
+    text = update.message.text
 
-    if last_update_id != curr_update.update_id:
-        chat_id = curr_update.message.chat.id
-        text    = curr_update.message.text
+    context.bot.sendMessage(chat_id, text)
 
-        bot.sendMessage(chat_id=chat_id, text=text)
 
-        last_update_id = curr_update.update_id
+updater = Updater(token=TOKEN)
+dp = updater.dispatcher
+
+dp.add_handler(handler=CommandHandler(command='start', callback=start))
+dp.add_handler(handler=MessageHandler(filters=Filters.text, callback=echo))
+
+updater.start_polling()
+updater.idle()
