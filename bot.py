@@ -5,5 +5,7 @@ TOKEN = os.environ.get('TOKEN')
 
 bot = Bot(token=TOKEN)
 
-user = bot.getMe()
-print(user.id)
+chat_id = '1258594598'
+text = 'salom'
+
+bot.sendMessage(chat_id=chat_id, text=text)
