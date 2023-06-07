@@ -22,7 +22,7 @@ updater = Updater(token=TOKEN)
 dp = updater.dispatcher
 
 dp.add_handler(handler=CommandHandler(command='start', callback=start))
-dp.add_handler(handler=MessageHandler(filters=Filters.text, callback=echo))
+dp.add_handler(handler=MessageHandler(filters=Filters.text(['salom', 'qale']), callback=echo))
 
 updater.start_polling()
 updater.idle()
